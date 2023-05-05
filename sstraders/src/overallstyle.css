@@ -1,0 +1,10 @@
+.card{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+}
+.card:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 248, 248, 0.507), 0 6px 20px 0 rgba(15, 225, 253, 0.623);
+    transition: 0.5s;
+    transform: translateY(-5px);
+
+}

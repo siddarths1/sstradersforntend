@@ -16,12 +16,19 @@ import './App.css'
 import AddtoCart from './Cart/addtocart';
 import Cart from './Cart';
 import About from './Aboutus';
+import { useState ,useEffect } from 'react';
+import Addprodect from './admin/Addprodect';
+import { ToastContainer, toast } from 'react-toastify';
+import Updateproduct from './admin/Updateproduct';
+import PaymentFrontend from '../PaymentFrontend';
+import OrderDetails from '../OrderDetails';
 const App=()=>{
   return (
     <div>
       <Navbarr />
       <Routes>
       <Route path='/' element={<Home />}/>
+        <Route path='/Cart' element={<Cart />}/>
         <Route path='/About' element={<About />} />
         <Route path='/Rice_Atta' element={<Riceandattamap />} />
         <Route path='/Oils_ghee' element={<Oilsandghees />} />
@@ -35,7 +42,10 @@ const App=()=>{
         <Route path='/Login' element={<Login />}/>
         <Route path='/SignUp' element={<SignUp />} />
         <Route path='/Addtocart' element={<Cart />}/>
-        
+        <Route path='/adminaddproduct' element={<Addprodect />}/>   
+        <Route path='/adminupdateproduct' element={<Updateproduct />}/> 
+        <Route path='/Payment' element = {<PaymentFrontend/>} />
+        <Route path='/Orders' element = {<OrderDetails/>} />
       </Routes>
     </div>
   )

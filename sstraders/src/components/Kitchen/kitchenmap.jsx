@@ -5,8 +5,22 @@ import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import axios from 'axios'
 const Kitchenmap =(props)=>{
-    const {id,img , title , price} = props
+    const {id,img,title,price,qty} = props
+     const addtocart=(id,img,title,price,qty)=>
+     {
+         axios.put("http://localhost:5000/addtocart",{"email":localStorage.getItem("email"),"items":{ "productid":id,"need":1,"image":img,"title":title,"price":price,"qty":qty}})
+         .then(resp=>
+             {
+                 console.log(
+                     resp.data)
+             })
+             .catch(error=>
+                 {
+                     console.log(error)
+                 })
+     }
     return(
         <>
         <div className='col-md-3 mt-3'>
@@ -14,8 +28,8 @@ const Kitchenmap =(props)=>{
                 <Card.Img variant='top'src={img} width={250} height={250}></Card.Img>
                 <Card.Body>
                     <Card.Title>{title}</Card.Title>
-                    <Card.Text>{price}</Card.Text>
-                    <Button variant='primary' onClick={()=>console.log(id)}>AddtoCart</Button>
+                    <Card.Text><pre>{qty } - Rs: {price}</pre></Card.Text>
+                    <Button variant='primary' onClick={()=>addtocart(id,img,title,price,qty)}>AddtoCart</Button>
                 </Card.Body>
         </Card>
         </div>

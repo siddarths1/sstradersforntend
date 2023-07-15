@@ -1,91 +1,66 @@
+import  axios  from 'axios';
 import React, { useState } from 'react'
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col'
-import ThemeProvider from 'react-bootstrap/ThemeProvider'
-import Card from 'react-bootstrap/Card'
-// import LoremIpsum from 'react-lorem-ipsum'
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-// import "./styles/login.css";
-import { Func } from './UserValidation';
-
 export default function Login() {
-
-  const[lemail,setlemail] = useState("");
-  const[lpassword,setlpassword] = useState("");
-
-
-  const Context = Func();
-  const move = useNavigate();
-
-  const SignUpNavigate=()=>{
-    move("/SignUp")
- }
  
- const LoginNavigate =()=>{
-   move("/Home")
- }
-
-
-
-  const GettingData =(event)=>{
-    event.preventDefault();
-    
-    const index = Context.details.findIndex(obj=>obj.email===lemail)
-    if(index===-1){alert("singup again or check your credentials")}
-    else
+    const[name,setname] = useState('');
+    const[email,setemail] = useState('');
+    const[password,setpassword] = useState('');
+    const navigate = useNavigate();
+   
+    async function submit(e)
     {
-      Context.details[index].password===lpassword?move("/"):alert("password incorrect")
+        e.preventDefault();
+        try{
+           await axios.post("http://localhost:5000/Login",{
+            name,email,password  //body object
+           })
+           .then(res=>{
+            console.log(res);
+             if(res.data=="exist"){
+               console.log(res.data)
+               localStorage.setItem("username", JSON.stringify(name));
+               localStorage.setItem("email", JSON.stringify(email));
+               localStorage.setItem("cart",[])
+               navigate("/",{state:{id:name}})
+             }
+             else if(res.data == "not exist")
+             {
+                alert("Sign Up First")
+             }
+           }
+           ).catch((err)=>{console.log(err)});
+        }
+        catch(e){
+           console.log(e)
+        }
     }
-    
-  }
-  
-
 
   return (
-    <div className='align'>
-      <div>
-        {/* <marquee direction="right" loop="1"><img src='images/sstrader.png' alt='pic' width={120} height={120}/></marquee> */}
-      <ThemeProvider
-      breakpoints={['xxxl', 'xxl', 'xl', 'lg', 'md', 'sm', 'xs', 'xxs']} minBreakpoint="xxs">
-        <Container fluid className='mt-3' >
-            <Row>
-              <Col  xs={6}>
+    <div className='container row mx-auto col-md-6 '>
+         <h1>Login</h1>
+         <form action="POST">
+  <div class="col-md-6 mb-3">
+    <label>Name</label>
+    <input type="text"  class="form-control" id="name" placeholder="Enter your name"  onChange={(e)=>{setname(e.target.value)}}   />
+  </div>
+  <div class="col-md-6 mb-3">
+    <label >Email address</label>
+    <input type="email" class="form-control"  id="email" placeholder="Enter your email"  onChange={(e)=>{setemail(e.target.value)}} value={email}/>
+  </div>
+  <div class="col-md-6 mb-3">
+    <label >Password</label>
+    <input type="password" class="form-control" id="password" placeholder="Enter your password" onChange={(e)=>{setpassword(e.target.value)}}/>
+  </div>
+  <button type="submit" class="btn btn-primary" onClick={submit} >Submit</button>
+</form>
 
-                  <Card className='shadow'> 
-
-                  <Card.Header  className='p-3' style={{backgroundColor:'lightblue'}}>
-                      <h2>LOGIN</h2>  
-                      <p>NEW TO SS TRADERS?</p>
-                      <div><Button onClick={SignUpNavigate} variant="danger">SignUp</Button></div>
-                  </Card.Header> 
-                  
-                  <Card.Body>
-                        <Form onSubmit={GettingData} >
-                              <Form.Group className='mb-3'>
-                                <Form.Control type='email' placeholder='Email' onChange={(e)=>(setlemail(e.target.value))} value={lemail} ></Form.Control>
-                              </Form.Group>
-                              <Form.Group className='mb-3'>
-                                <Form.Control type='password' placeholder='Password' onChange={(e)=>(setlpassword(e.target.value))} value={lpassword} ></Form.Control>
-                              </Form.Group>
-                              <Form.Group className='mb-2'> 
-                                <Button variant='success' type='submit'>LogIn</Button>
-                              </Form.Group>
-                        </Form>
-                  </Card.Body>
-
-                </Card>
-
-              </Col>          
-            </Row>
-                  
-        </Container>
-                
-      </ThemeProvider>
-      
-      </div>
+<br/>
+    <h4>sign upp</h4>
+     <Link to="/Signup" >click here</Link>
     </div>
+   
   )
 }
+

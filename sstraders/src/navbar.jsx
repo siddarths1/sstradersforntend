@@ -30,12 +30,12 @@ export default function Navbarr() {
           </NavDropdown>
         </Nav>
         <Nav>
-          
+        <Nav.Link href="Login">Hello {localStorage.getItem("username")}</Nav.Link>
           <Nav.Link href="Login">Login</Nav.Link>
           <Nav.Link href="SignUp">Sign Up</Nav.Link>
         </Nav>
       </Navbar.Collapse>
-      <Nav.Link><span class="material-symbols-outlined">add_shopping_cart</span></Nav.Link>
+      <Nav.Link href="Cart"><span class="material-symbols-outlined" >add_shopping_cart</span></Nav.Link>
     </Container>
   </Navbar>
   </>
